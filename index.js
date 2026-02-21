@@ -7,8 +7,3 @@ function subtract(a, b) {
 }
 
 module.exports = { add, subtract };
-//index1
-//index1
-//index1
-//index1
-//index1
