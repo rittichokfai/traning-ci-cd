@@ -21,12 +21,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+
+      - name: Discord Push Notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: matrix.node-version == '22.x'
+        with:
+          severity: info
+          details: "🚀 มีการ Push โค้ดใหม่ กำลังเริ่มทดสอบ..."
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
       - run: npm ci
       - run: npm test
-      - name: Discord notification
+
+      - name: Discord Build Success Notification
         uses: rjstone/discord-webhook-notify@v1
         if: always() && matrix.node-version == '22.x'
         with:
           severity: ${{ job.status == 'success' && 'info' || 'error' }}
-          details: Build ${{ job.status }}!
+          details: "✅ Build ${{ job.status }}! พร้อมใช้งานครับ"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
