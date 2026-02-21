@@ -40,3 +40,43 @@ jobs:
           severity: ${{ job.status == 'success' && 'info' || 'error' }}
           details: "✅ Build ${{ job.status }}! พร้อมใช้งานครับ"
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+  deploy:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Google Auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: Configure Docker for GCP
+        run: gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repo/my-app:${{ github.sha }} .
+          docker push asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repo/my-app:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: "google-github-actions/deploy-cloudrun@v2"
+        with:
+          service: "my-node-app"
+          image: "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repo/my-app:${{ github.sha }}"
+          region: "asia-southeast1"
+          flags: "--allow-unauthenticated"
+
+      - name: Discord Deploy Notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: always()
+        with:
+          severity: ${{ job.status == 'success' && 'info' || 'error' }}
+          details: "🚀 Deploy สำเร็จแล้ว! ดูผลงานได้ที่นี่: ${{ steps.deploy.outputs.url }}"
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
