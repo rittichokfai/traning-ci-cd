@@ -1,4 +1,6 @@
 const http = require("http");
+const fs = require("fs");
+const path = require("path");
 
 function add(a, b) {
   return a + b;
@@ -9,13 +11,21 @@ function subtract(a, b) {
 }
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-  res.end(`
-    <h1>🚀 สวัสดีครับ! CI/CD สำเร็จแล้ว!</h1>
-    <p>แอปนี้ deploy อัตโนมัติด้วย GitHub Actions สู่ Google Cloud Run</p>
-    <p>ตัวอย่างการคำนวณ: 2 + 3 = ${add(2, 3)}</p>
-    <p>ตัวอย่างการคำนวณ: 10 - 4 = ${subtract(10, 4)}</p>
-  `);
+  if (req.url === "/" || req.url === "/index.html") {
+    const htmlPath = path.join(__dirname, "public", "index.html");
+    fs.readFile(htmlPath, "utf8", (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        res.end("Error loading page");
+        return;
+      }
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      res.end(data);
+    });
+  } else {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end("<h1>404 - Not Found</h1>");
+  }
 });
 
 const PORT = process.env.PORT || 8080;

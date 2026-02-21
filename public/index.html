@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rittichok Fayjapo - Full Stack Developer</title>
+    <meta
+      name="description"
+      content="Resume of Rittichok Fayjapo - Full Stack Developer with expertise in NestJS, React, Laravel, and Cloud Infrastructure"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #0a0a0f;
+        --bg-card: rgba(255, 255, 255, 0.03);
+        --bg-card-hover: rgba(255, 255, 255, 0.06);
+        --accent: #6c63ff;
+        --accent-glow: rgba(108, 99, 255, 0.3);
+        --accent-2: #00d4aa;
+        --accent-3: #ff6b9d;
+        --text-primary: #e8e8f0;
+        --text-secondary: #8888a0;
+        --text-muted: #55556a;
+        --border: rgba(255, 255, 255, 0.06);
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background:
+          radial-gradient(
+            circle at 30% 20%,
+            rgba(108, 99, 255, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 60%,
+            rgba(0, 212, 170, 0.05) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 50% 80%,
+            rgba(255, 107, 157, 0.04) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: bgFloat 20s ease-in-out infinite;
+      }
+
+      @keyframes bgFloat {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-2%, -2%);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 20px var(--accent-glow);
+        }
+        50% {
+          box-shadow: 0 0 40px var(--accent-glow);
+        }
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 24px;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 60px 0 40px;
+        animation: fadeInUp 0.8s ease;
+      }
+
+      .avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 36px;
+        font-weight: 800;
+        color: white;
+        animation: pulseGlow 3s ease-in-out infinite;
+        position: relative;
+      }
+
+      .avatar::after {
+        content: "";
+        position: absolute;
+        inset: -3px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-2),
+          var(--accent-3)
+        );
+        z-index: -1;
+        animation: spin 6s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .name {
+        font-size: 42px;
+        font-weight: 900;
+        background: linear-gradient(
+          135deg,
+          #fff 0%,
+          var(--accent) 50%,
+          var(--accent-2) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+      }
+
+      .title {
+        font-size: 18px;
+        color: var(--accent-2);
+        font-weight: 500;
+        margin-bottom: 16px;
+      }
+
+      .contact-bar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--text-secondary);
+        background: var(--bg-card);
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        transition: all 0.3s;
+      }
+
+      .contact-item:hover {
+        border-color: var(--accent);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      .contact-icon {
+        font-size: 14px;
+      }
+
+      /* Section */
+      .section {
+        margin-bottom: 40px;
+        animation: fadeInUp 0.8s ease;
+      }
+
+      .section-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--accent);
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .section-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+      }
+
+      /* Profile */
+      .profile-text {
+        font-size: 15px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        background: var(--bg-card);
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid var(--border);
+      }
+
+      /* Skills */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+      }
+
+      .skill-category {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+        transition: all 0.3s;
+      }
+
+      .skill-category:hover {
+        border-color: var(--accent);
+        background: var(--bg-card-hover);
+        transform: translateY(-4px);
+      }
+
+      .skill-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent-2);
+        margin-bottom: 10px;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .skill-tag {
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: rgba(108, 99, 255, 0.1);
+        color: var(--text-primary);
+        border: 1px solid rgba(108, 99, 255, 0.2);
+        transition: all 0.2s;
+      }
+
+      .skill-tag:hover {
+        background: rgba(108, 99, 255, 0.2);
+        transform: scale(1.05);
+      }
+
+      /* Experience */
+      .exp-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 28px;
+        margin-bottom: 16px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .exp-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, var(--accent), var(--accent-2));
+        border-radius: 0 3px 3px 0;
+      }
+
+      .exp-card:hover {
+        border-color: var(--accent);
+        background: var(--bg-card-hover);
+        transform: translateX(4px);
+      }
+
+      .exp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+
+      .exp-company {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .exp-period {
+        font-size: 12px;
+        color: var(--accent-2);
+        background: rgba(0, 212, 170, 0.1);
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .exp-role {
+        font-size: 14px;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .exp-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .exp-list li {
+        font-size: 13px;
+        color: var(--text-secondary);
+        padding: 4px 0;
+        padding-left: 16px;
+        position: relative;
+        line-height: 1.7;
+      }
+
+      .exp-list li::before {
+        content: "▹";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+
+      .exp-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+
+      .exp-tech-tag {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: rgba(255, 107, 157, 0.1);
+        color: var(--accent-3);
+        font-weight: 500;
+      }
+
+      /* Education */
+      .edu-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s;
+      }
+
+      .edu-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .edu-degree {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .edu-school {
+        font-size: 14px;
+        color: var(--accent-2);
+        margin-bottom: 12px;
+      }
+
+      .edu-project-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 6px;
+      }
+
+      .edu-project-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 40px 0 20px;
+        color: var(--text-muted);
+        font-size: 12px;
+      }
+
+      .footer span {
+        color: var(--accent);
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        .name {
+          font-size: 28px;
+        }
+        .container {
+          padding: 20px 16px;
+        }
+        .exp-header {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const ContactItem = ({ icon, text }) => (
+        <div className="contact-item">
+          <span className="contact-icon">{icon}</span>
+          {text}
+        </div>
+      );
+
+      const SkillCategory = ({ label, skills }) => (
+        <div className="skill-category">
+          <div className="skill-label">{label}</div>
+          <div className="skill-tags">
+            {skills.map((s, i) => (
+              <span key={i} className="skill-tag">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+
+      const ExperienceCard = ({ company, period, role, items, tech }) => (
+        <div className="exp-card">
+          <div className="exp-header">
+            <div className="exp-company">{company}</div>
+            <div className="exp-period">{period}</div>
+          </div>
+          <div className="exp-role">{role}</div>
+          <ul className="exp-list">
+            {items.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+          <div className="exp-tech">
+            {tech.map((t, i) => (
+              <span key={i} className="exp-tech-tag">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+
+      function App() {
+        const [visible, setVisible] = useState(false);
+        useEffect(() => setVisible(true), []);
+
+        return (
+          <div
+            className="container"
+            style={{ opacity: visible ? 1 : 0, transition: "opacity 0.8s" }}
+          >
+            {/* Header */}
+            <header className="header">
+              <div className="avatar">RF</div>
+              <h1 className="name">Rittichok Fayjapo</h1>
+              <div className="title">Full Stack Developer</div>
+              <div className="contact-bar">
+                <ContactItem icon="📍" text="Nakhon Ratchasima, Thailand" />
+                <ContactItem icon="📱" text="(+66) 87-960-6919" />
+                <ContactItem icon="✉️" text="rittichok.fa@gmail.com" />
+              </div>
+            </header>
+
+            {/* Profile */}
+            <section className="section">
+              <div className="section-title">Profile</div>
+              <div className="profile-text">
+                Full Stack Developer with over 2 years of experience
+                specializing in backend API development, infrastructure
+                management, and integration with third-party systems. Skilled in
+                building scalable and secure applications using modern
+                technologies such as NestJS, Prisma, and PostgreSQL. Proven
+                track record in working collaboratively within cross-functional
+                teams to deliver high-quality software solutions. Strong
+                problem-solving skills and passion for continuous learning.
+              </div>
+            </section>
+
+            {/* Technical Skills */}
+            <section className="section">
+              <div className="section-title">Technical Skills</div>
+              <div className="skills-grid">
+                <SkillCategory
+                  label="Languages & Frameworks"
+                  skills={[
+                    "PHP",
+                    "Laravel",
+                    "NestJS",
+                    "Vue.js",
+                    "React.js",
+                    "Node.js",
+                    "Slim Framework",
+                  ]}
+                />
+                <SkillCategory
+                  label="Databases"
+                  skills={["PostgreSQL", "MySQL", "MariaDB"]}
+                />
+                <SkillCategory
+                  label="APIs & Integration"
+                  skills={["GraphQL", "RESTful API", "Firebase", "Agora"]}
+                />
+                <SkillCategory
+                  label="Tools & Infrastructure"
+                  skills={[
+                    "Prisma",
+                    "Docker",
+                    "Linux",
+                    "CI/CD",
+                    "Jenkins",
+                    "JMeter",
+                  ]}
+                />
+                <SkillCategory
+                  label="Cloud Platforms"
+                  skills={["AWS", "Google Cloud", "DigitalOcean"]}
+                />
+                <SkillCategory
+                  label="Other"
+                  skills={["Git", "Blockchain", "Data Migration", "DevOps"]}
+                />
+              </div>
+            </section>
+
+            {/* Work Experience */}
+            <section className="section">
+              <div className="section-title">Work Experience</div>
+
+              <ExperienceCard
+                company="Magic Tech Solution Co., Ltd."
+                period="Oct 2024 — Present"
+                role="Programmer (Full-Time / Remote)"
+                items={[
+                  "Developed backend APIs for an ERP system managing inventory and warehouse operations, including purchase requests, purchase orders, sales orders, delivery notes, and goods receipts.",
+                  "Integrated the ERP system with a Transportation Management System (TMS) by transmitting transport order data to a third-party platform, and interfaced with SAP via API.",
+                  "Participated in requirement gathering sessions and designed workflows and database schemas.",
+                  "Conducted data cleansing and performed data migration by importing cleaned data using Excel.",
+                  "Managed server and database administration to ensure system stability, security, and performance.",
+                  "Led deployment processes to efficiently deliver updates and new features.",
+                ]}
+                tech={["NestJS", "Yoga GraphQL", "Prisma", "PostgreSQL"]}
+              />
+
+              <ExperienceCard
+                company="Blok Corp Co., Ltd."
+                period="Apr 2023 — Oct 2024"
+                role="Full Stack Developer (1 yr 6 mos)"
+                items={[
+                  "Developed APIs and BackOffice systems for a mobile application covering news, announcements, class schedules, real-time chat, and calendar with blockchain-enabled data modification.",
+                  "Cleaned and processed Excel data from the university for accurate database import.",
+                  "Integrated and connected with VisionNet API to continuously fetch and process data.",
+                  "Designed infrastructure for server load balancing and database clustering, ensuring scalability.",
+                  "Collaborated with design and server teams to ensure smooth and secure system operation.",
+                  "Improved application performance and fixed bugs based on user feedback.",
+                ]}
+                tech={[
+                  "NestJS",
+                  "Prisma",
+                  "PostgreSQL",
+                  "Agora",
+                  "Firebase",
+                  "Laravel",
+                ]}
+              />
+
+              <ExperienceCard
+                company="Synerry Corporation (Thailand) Co., Ltd."
+                period="Nov 2022 — Feb 2023"
+                role="Full Stack Developer Intern (4 mos)"
+                items={[
+                  "Learned company workflow, task management tools, and internal development processes.",
+                  "Gained hands-on experience in frontend development using Vue.js and PHP, and website management with WordPress.",
+                  "Participated in user requirements gathering and client meetings, including onsite visits.",
+                ]}
+                tech={["Vue.js", "PHP", "WordPress"]}
+              />
+            </section>
+
+            {/* Education */}
+            <section className="section">
+              <div className="section-title">Education</div>
+              <div className="edu-card">
+                <div className="edu-degree">
+                  🎓 Bachelor's Degree in Computer Engineering
+                </div>
+                <div className="edu-school">
+                  Rajamangala University of Technology Isan, Nakhon Ratchasima
+                  (2023)
+                </div>
+                <div className="edu-project-title">
+                  📌 Senior Project: Web Application Cooperative System Online
+                </div>
+                <div className="edu-project-desc">
+                  Developed a web-based platform for managing cooperative
+                  systems online. Built using React.js, Node.js, and MySQL.
+                  Features include user authentication, real-time data updates,
+                  and reporting system.
+                </div>
+              </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="footer">
+              <p>
+                Built with <span>React</span> • Deployed via <span>CI/CD</span>{" "}
+                on <span>Google Cloud Run</span>
+              </p>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
